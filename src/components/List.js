@@ -8,7 +8,6 @@ const List = ({listData}) => {
       {...data}
     />
   ))
-  console.log(listData);
   return ( 
     <ul className="image-list">
       { list }
