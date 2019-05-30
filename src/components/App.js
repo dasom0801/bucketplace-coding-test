@@ -8,6 +8,7 @@ class App extends Component {
     this.state = {
       page: 1,
       isLoading: false,
+      isFilterOn: false,
       imageList: [],
       scrapList: []
     }
@@ -62,28 +63,38 @@ class App extends Component {
     });
   }
 
-  toggleScrap = ({id, scrapIndex}) => {
+  toggleScrap = ({id, isScrapped}) => {
     const { scrapList } = this.state,
-          updatedList = scrapIndex > -1 ? [...scrapList.slice(0, scrapIndex), ...scrapList.slice(scrapIndex+1)] : [...scrapList, id];
+          updatedList = isScrapped ? [...scrapList.filter(scrapId => scrapId !== id )] : [...scrapList, id];
     this.setState({
       scrapList: updatedList
     });
-    this.updateLocaStorage(updatedList);
+    this.updateLocalStorage(updatedList);
   }
 
-  updateLocaStorage = (updatedList) => {
+  updateLocalStorage = (updatedList) => {
     window.localStorage.setItem('scrap', JSON.stringify(updatedList));
   }
 
+  toggleFilter = () => {
+    this.setState({
+      isFilterOn: !this.state.isFilterOn 
+    })
+  }
+
   render() { 
-    const { imageList, scrapList } = this.state,
-          { toggleScrap } = this;
+    const { imageList, scrapList, isFilterOn } = this.state,
+          { toggleScrap, toggleFilter } = this;
     return (
-      <List 
-        imageList={imageList}
-        scrapList={scrapList}
-        toggleScrap={toggleScrap}
-      />
+      <div className="App">
+        <button className="filter" onClick={toggleFilter}>스크랩한 것만 보기</button>
+        <List 
+          imageList={imageList}
+          scrapList={scrapList}
+          toggleScrap={toggleScrap}
+          isFilterOn={isFilterOn}
+        />
+      </div>
     );
   }
 }

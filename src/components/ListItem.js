@@ -1,6 +1,6 @@
 import React from 'react';
 
-const ListItem = ({ id, image_url, nickname, profile_image_url, toggleScrap, scrapIndex}) => {
+const ListItem = ({ id, image_url, nickname, profile_image_url, toggleScrap, isScrapped}) => {
   return ( 
     <li className="image-list-item">
       <div className="user">
@@ -8,7 +8,7 @@ const ListItem = ({ id, image_url, nickname, profile_image_url, toggleScrap, scr
         <p className="user-nickname">{nickname}</p>
       </div>
       <img src={image_url} alt="인테리어 이미지" />
-      <button className="scrap" onClick={() => toggleScrap({id, scrapIndex})}>스크랩 {scrapIndex > -1? 'O' : 'X'}</button>
+      <button className="scrap" onClick={() => toggleScrap({id, isScrapped})}>스크랩 {isScrapped ? 'O' : 'X'}</button>
     </li>
   );
 }

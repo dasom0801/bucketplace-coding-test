@@ -1,17 +1,20 @@
 import React from 'react';
 import ListItem from './ListItem';
 
-const List = ({imageList, scrapList, toggleScrap}) => {
+const List = ({imageList, scrapList, toggleScrap, isFilterOn}) => {
   const list = imageList.map(data => {
-    const scrapIndex = scrapList.indexOf(data.id); 
-    return (
-    <ListItem 
-      key={data.id}
-      toggleScrap={toggleScrap}
-      scrapIndex={scrapIndex}
-      {...data}
-    />
-  )})
+    const isScrapped = scrapList.indexOf(data.id) > -1; 
+    const listItem = (
+      <ListItem 
+        key={data.id}
+        toggleScrap={toggleScrap}
+        isScrapped={isScrapped}
+        {...data}
+      />
+    );
+    return isFilterOn ? (isScrapped && listItem) : listItem;
+  });
+
   return ( 
     <ul className="image-list">
       { list }
