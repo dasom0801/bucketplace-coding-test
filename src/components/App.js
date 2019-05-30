@@ -8,7 +8,8 @@ class App extends Component {
     this.state = {
       page: 1,
       isLoading: false,
-      listData: []
+      imageList: [],
+      scrapList: []
     }
   }
 
@@ -16,6 +17,9 @@ class App extends Component {
     this.fetchData();
     window.scrollTo(0, 0);
     window.addEventListener("scroll", this.handleScroll);
+    this.setState({
+      scrapList: JSON.parse(window.localStorage.getItem('scrap'))
+    })
   }
 
   componentWillUnmount() {
@@ -23,12 +27,12 @@ class App extends Component {
   }
 
   fetchData = () => {
-    const { page, listData } = this.state
+    const { page, imageList } = this.state
     axios.get(`http://s3.ap-northeast-2.amazonaws.com/bucketplace-coding-test/cards/page_${page}.json`)
       .then(res => {
         this.setState({
           page: page + 1,
-          listData: [...listData , ...res.data]
+          imageList: [...imageList , ...res.data]
         });
         this.changeLoadingStatus(false);
       })
@@ -51,15 +55,35 @@ class App extends Component {
       }
     };
   }
+
   changeLoadingStatus = (bool) => {
     this.setState({
       isLoading: bool
     });
   }
+
+  toggleScrap = ({id, scrapIndex}) => {
+    const { scrapList } = this.state,
+          updatedList = scrapIndex > -1 ? [...scrapList.slice(0, scrapIndex), ...scrapList.slice(scrapIndex+1)] : [...scrapList, id];
+    this.setState({
+      scrapList: updatedList
+    });
+    this.updateLocaStorage(updatedList);
+  }
+
+  updateLocaStorage = (updatedList) => {
+    window.localStorage.setItem('scrap', JSON.stringify(updatedList));
+  }
+
   render() { 
-    const { listData } = this.state
+    const { imageList, scrapList } = this.state,
+          { toggleScrap } = this;
     return (
-      <List listData={listData}/>
+      <List 
+        imageList={imageList}
+        scrapList={scrapList}
+        toggleScrap={toggleScrap}
+      />
     );
   }
 }
