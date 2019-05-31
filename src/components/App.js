@@ -43,12 +43,12 @@ class App extends Component {
   }
 
   handleScroll = () => {
-    const { isLoading } = this.state;
+    const { isLoading, isFilterOn } = this.state;
     let scrollHeight = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight);
     let scrollTop = Math.max(document.documentElement.scrollTop, document.body.scrollTop);
     let clientHeight = document.documentElement.clientHeight;
     if (scrollTop + clientHeight >= scrollHeight - 300) {
-      if(!isLoading) {
+      if(!isLoading && !isFilterOn) {
         this.fetchData();
         this.changeLoadingStatus(true);
       } else {
