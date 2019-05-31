@@ -1,5 +1,6 @@
 import React from 'react';
 import ListItem from './ListItem';
+import '../styles/List.scss';
 
 const List = ({imageList, scrapList, toggleScrap, isFilterOn}) => {
   const list = imageList.map(data => {

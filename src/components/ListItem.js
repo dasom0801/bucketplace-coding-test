@@ -2,13 +2,13 @@ import React from 'react';
 
 const ListItem = ({ id, image_url, nickname, profile_image_url, toggleScrap, isScrapped}) => {
   return ( 
-    <li className="image-list-item">
+    <li className="list-item">
       <div className="user">
         <img className="user-image" src={profile_image_url} alt={`${nickname} 프로필 이미지`} />
-        <p className="user-nickname">{nickname}</p>
+        <span className="user-nickname">{nickname}</span>
       </div>
-      <img src={image_url} alt="인테리어 이미지" />
-      <button className="scrap" onClick={() => toggleScrap({id, isScrapped})}>스크랩 {isScrapped ? 'O' : 'X'}</button>
+      <img className="list-item-image" src={image_url} alt="인테리어 이미지" />
+      <button className={`scrap ${isScrapped ? 'scrap-on' : 'scrap-off'}`} onClick={() => toggleScrap({id, isScrapped})}>스크랩 </button>
     </li>
   );
 }

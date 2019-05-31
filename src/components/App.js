@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import List from './List';
+import '../styles/App.scss';
 
 class App extends Component {
   constructor(props) {
@@ -87,7 +88,7 @@ class App extends Component {
           { toggleScrap, toggleFilter } = this;
     return (
       <div className="App">
-        <button className="filter" onClick={toggleFilter}>스크랩한 것만 보기</button>
+        <button className={`filter ${isFilterOn ? 'filter-on' : 'filter-off' }`} onClick={toggleFilter}>스크랩한 것만 보기</button>
         <List 
           imageList={imageList}
           scrapList={scrapList}

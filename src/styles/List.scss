@@ -1,0 +1,50 @@
+ul.image-list {
+  margin: 30px 0 0 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  .list-item {
+    position: relative;
+    margin: 15px 10px;
+    list-style: none;
+    .user {
+      margin-bottom: 10px;
+      height: 36px;
+      line-height: 36px;
+      .user-image {
+        margin-right: 10px;
+        width: 36px;
+        height: 36px;
+        vertical-align: middle;
+      }
+      .user-nickname {
+        display: inline-block;
+        vertical-align: middle;
+      }
+    }
+    .list-item-image {
+      width: 268px;
+      height: 268px;
+      border-radius: 10px;
+    }
+    .scrap{
+      position: absolute;
+      right: 10px;
+      bottom: 10px;
+      width: 32px;
+      height: 32px;
+      background: none;
+      background-size: cover;
+      border: none;
+      font-size: 0;
+      cursor: pointer;
+      &.scrap-on {
+        background-image: url('../assets/blue.png');
+      }
+      &.scrap-off {
+        background-image: url('../assets/on-img.png');
+      }
+    }
+  }
+}
