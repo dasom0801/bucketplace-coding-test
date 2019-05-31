@@ -16,11 +16,11 @@ const List = ({imageList, scrapList, toggleScrap, isFilterOn}) => {
     return isFilterOn ? (isScrapped && listItem) : listItem;
   });
 
-  return ( 
+  return (
     <ul className="image-list">
       { list }
     </ul>
-   );
+  );
 }
  
 export default List;

@@ -1,15 +1,20 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import List from './List';
+import ScrapAlert from './ScrapAlert';
 import '../styles/App.scss';
 
 class App extends Component {
   constructor(props) {
     super(props);
+    this.timer = null;
     this.state = {
       page: 1,
       isLoading: false,
       isFilterOn: false,
+      isAlertOn: false,
+      isScrapCancel: false,
+      alertImageUrl: '',
       imageList: [],
       scrapList: []
     }
@@ -64,12 +69,13 @@ class App extends Component {
     });
   }
 
-  toggleScrap = ({id, isScrapped}) => {
+  toggleScrap = ({id, isScrapped, url}) => {
     const { scrapList } = this.state,
           updatedList = isScrapped ? [...scrapList.filter(scrapId => scrapId !== id )] : [...scrapList, id];
     this.setState({
       scrapList: updatedList
     });
+    this.toggleScrapAlert({bool: true, url, isScrapCancel: isScrapped});
     this.updateLocalStorage(updatedList);
   }
 
@@ -83,12 +89,28 @@ class App extends Component {
     })
   }
 
+  toggleScrapAlert = ({bool, url, isScrapCancel}) => {
+    this.setState({
+      isAlertOn: bool,
+      alertImageUrl: url,
+      isScrapCancel: isScrapCancel
+    })
+    bool && clearTimeout(this.timer);  
+    this.timer = setTimeout(() => this.setState({ isAlertOn: false}), 2000); 
+  }
+
   render() { 
-    const { imageList, scrapList, isFilterOn } = this.state,
-          { toggleScrap, toggleFilter } = this;
+    const { imageList, scrapList, isFilterOn, isAlertOn, alertImageUrl, isScrapCancel } = this.state,
+          { toggleScrap, toggleFilter, toggleScrapAlert } = this;
     return (
       <div className="App">
         <button className={`filter ${isFilterOn ? 'filter-on' : 'filter-off' }`} onClick={toggleFilter}>스크랩한 것만 보기</button>
+        <ScrapAlert 
+          isAlertOn={isAlertOn}
+          url={alertImageUrl}
+          isScrapCancel={isScrapCancel}
+          toggleScrapAlert={toggleScrapAlert}
+        />
         <List 
           imageList={imageList}
           scrapList={scrapList}
